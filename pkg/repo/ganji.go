@@ -3,6 +3,7 @@ package repo
 import (
 	"encoding/xml"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -70,7 +71,7 @@ func GetGanjiWithSolar(year, month, day string) (string, error){
 		return "", fmt.Errorf(fmt.Sprintf("Failed to get ganji - %s", resp.Status))
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
