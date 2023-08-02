@@ -2,8 +2,10 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"fortune-back-go/pkg/repo"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -41,18 +43,23 @@ func (c *FortuneController) GetFortune(w http.ResponseWriter, r *http.Request) {
 	var ganji string
 	if params.IsLunar {
 		ganji, err = repo.GetGanjiWithLunar(params.BirthYear, params.BirthMonth, params.BirthDay)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("GetGanjiWithLunar:%s", err), http.StatusInternalServerError)
+			return
+		}
 	} else {
 		ganji, err = repo.GetGanjiWithSolar(params.BirthYear, params.BirthMonth, params.BirthDay)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("GetGanjiWithSolar:%s", err), http.StatusInternalServerError)
+			return
+		}
 	}
 
-	if err != nil {
-		http.Error(w, "Failed to get ganji", http.StatusInternalServerError)
-		return
-	}
+	log.Printf("ganji: %s", ganji)
 
 	resp, err := c.FortuneRepo.GetFortune(ganji)
 	if err != nil {
-		http.Error(w, "Failed to get fortune", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("GetFortune:%s", err), http.StatusInternalServerError)
 		return
 	}
 
