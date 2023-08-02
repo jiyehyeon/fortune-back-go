@@ -31,9 +31,9 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	fortuneRouter := router.NewFortuneRouter().Initialize()
 
-	mux.Handle(newrelic.WrapHandle(app, "/fortune", middleware.JSONHeader(fortuneRouter)))
+	fortuneRouter := router.NewFortuneRouter().Initialize()
+	mux.Handle(newrelic.WrapHandle(app, "/fortune/", middleware.JSONHeader(http.StripPrefix("/fortune", fortuneRouter))))
 
 	fmt.Println("server starting..")
 	http.ListenAndServe(":8080", mux)
