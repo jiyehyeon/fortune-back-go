@@ -13,7 +13,7 @@
 
 *.log
 
-*.test
+*_test.go
 
 *.out
 
