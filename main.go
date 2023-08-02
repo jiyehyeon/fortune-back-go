@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"fortune-back-go/pkg/config"
+	"fortune-back-go/pkg/middleware"
 	"fortune-back-go/pkg/router"
 	"log"
 	"net/http"
@@ -30,9 +31,9 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	fortuneRouter := router.NewFortuneRouter()
+	fortuneRouter := router.NewFortuneRouter().Initialize()
 
-	mux.Handle(newrelic.WrapHandle(app, "/fortune", fortuneRouter.Initialize()))
+	mux.Handle(newrelic.WrapHandle(app, "/fortune", middleware.JSONHeader(fortuneRouter)))
 
 	fmt.Println("server starting..")
 	http.ListenAndServe(":8080", mux)
