@@ -34,7 +34,7 @@ func (r *FortuneRepo) GetFortune(ganji string) (*model.Fortune, error) {
 }
 
 	var fortune model.Fortune
-	err := r.db.Collection("fortune").FindOne(context.Background(), filter).Decode(&fortune)
+	err := r.db.Collection("fortunes").FindOne(context.Background(), filter).Decode(&fortune)
 
 	if err != nil {
 		log.Println("Failed to get fortune:", err)
