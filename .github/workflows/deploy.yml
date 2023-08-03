@@ -22,7 +22,7 @@ jobs:
 
     - name: Get Latest Commit Message
       id: get_commit
-      run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)" >> $GITHUB_ENV
+      run: echo "COMMIT_MESSAGE=${{github.event.head_commit.message}}"
       
     - name: Run script file
       run: chmod +x ./deploy.bat
