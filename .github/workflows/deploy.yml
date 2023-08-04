@@ -15,24 +15,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-    - name: Get Latest Commit Message
-      id: get_commit
-      run: echo "COMMIT_MESSAGE=${{github.event.head_commit.message}}"
+      - name: Get Latest Commit Message
+        id: get_commit
+        run: echo "COMMIT_MESSAGE=${{github.event.head_commit.message}}"
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.20"
 
-    - name: Install dependencies
-      run: go get .
-      
-    - name: Go Build
-      run: go build -o api.exe main.go
+      - name: Install dependencies
+        run: go get .
 
-    - name: Run API
-      run: Start-Process -FilePath "./api.exe" -NoNewWindow
-      env:
+      - name: Go Build
+        run: go build -o api.exe main.go
+
+      - name: Run API
+        run: Start-Process -FilePath "./api.exe" -NoNewWindow
+        env:
           LUNAR_CALANDER_API_URL: ${{secrets.LUNAR_CALANDER_API_URL}}
           MONGO_DATABASE: ${{secrets.MONGO_DATABASE}}
           MONGO_URI: ${{secrets.MONGO_URI}}
