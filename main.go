@@ -8,16 +8,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/joho/godotenv"
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
 func main() {
-	if err := godotenv.Load(".env"); err != nil {
-		fmt.Println("Error loading test.env file:", err)
-		return
-	}
-
 	newRelic := config.GetNewRelicConfig()
 
 	app, err := newrelic.NewApplication(
